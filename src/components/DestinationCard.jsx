@@ -3,9 +3,11 @@ import Image from "next/image";
 import { LuMapPin } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
 import { AiFillStar } from "react-icons/ai";
+import Link from "next/link";
 
 const DestinationCard = ({ destination }) => {
   const {
+    _id,
     destinationName,
     description,
     imageUrl,
@@ -54,12 +56,15 @@ const DestinationCard = ({ destination }) => {
           </div>
         </div>
 
-        <Button
-          variant="outline"
-          className="w-full border-cyan-500 text-cyan-600 font-bold rounded-lg hover:bg-cyan-500 hover:text-white transition-all duration-300 shadow-sm "
-        >
-          Book Now
-        </Button>
+        <Link href={`/destinations/${_id}`}>
+          {" "}
+          <Button
+            variant="outline"
+            className="w-full border-cyan-500 text-cyan-600 font-bold rounded-lg hover:bg-cyan-500 hover:text-white transition-all duration-300 shadow-sm "
+          >
+            Book Now
+          </Button>
+        </Link>
       </div>
     </div>
   );
