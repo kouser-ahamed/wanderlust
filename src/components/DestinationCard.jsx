@@ -2,6 +2,7 @@ import { Button } from "@heroui/react";
 import Image from "next/image";
 import { LuMapPin } from "react-icons/lu";
 import { SlCalender } from "react-icons/sl";
+import { AiFillStar } from "react-icons/ai";
 
 const DestinationCard = ({ destination }) => {
   const {
@@ -24,6 +25,10 @@ const DestinationCard = ({ destination }) => {
           height={250}
           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500"
         />
+        <div className="absolute top-3 right-3 bg-white/90 rounded-md    px-3 py-1 flex items-center gap-1 shadow">
+          <AiFillStar className="text-yellow-400" />
+          <span className="text-sm font-medium text-gray-800">4.5</span>
+        </div>
       </div>
 
       <div className="p-5 space-y-4">
