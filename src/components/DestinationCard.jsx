@@ -56,9 +56,9 @@ const DestinationCard = ({ destination }) => {
 
         <Button
           variant="outline"
-          className="w-full border-cyan-500 text-cyan-600 font-medium rounded-lg hover:bg-cyan-500 hover:text-white transition-all duration-300 shadow-sm"
+          className="w-full border-cyan-500 text-cyan-600 font-bold rounded-lg hover:bg-cyan-500 hover:text-white transition-all duration-300 shadow-sm "
         >
-          View Details
+          Book Now
         </Button>
       </div>
     </div>
