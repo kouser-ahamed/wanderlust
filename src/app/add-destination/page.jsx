@@ -11,6 +11,7 @@ import {
   Select,
   Card,
 } from "@heroui/react";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const AddDestinationPage = () => {
@@ -31,6 +32,7 @@ const AddDestinationPage = () => {
     });
 
     const data = await res.json();
+    redirect("/destinations");
 
 
   

@@ -1,4 +1,6 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useState, useRef } from "react";
 import {
   Button,
   FieldError,
@@ -12,10 +14,13 @@ import {
   Select,
   category,
 } from "@heroui/react";
-import { redirect } from "next/dist/server/api-utils";
 import { BiEdit, BiEnvelope } from "react-icons/bi";
 
 export function EditModal({ destination }) {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  
   const {
     _id,
     destinationName,
@@ -27,29 +32,39 @@ export function EditModal({ destination }) {
     duration,
     category,
   } = destination;
+  
   const onSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     const destination = Object.fromEntries(formData.entries());
 
     console.log("New Destination:", destination);
 
-    const res = await fetch(`http://localhost:5000/destination/${_id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-
-      body: JSON.stringify(destination),
-    });
-    const date = await res.json();
-    console.log("Updated Destination:", date);
-
-    // redirect(`/destinations/${_id}`);
+    try {
+      const res = await fetch(`http://localhost:5000/destination/${_id}`, {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(destination),
+      });
+      const date = await res.json();
+      console.log("Updated Destination:", date);
+      
+      // Close modal
+      setIsOpen(false);
+      
+      // Redirect to destination details page
+      router.push(`/destinations/${_id}`);
+    } catch (error) {
+      console.error("Error updating destination:", error);
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Modal>
+    <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
       <Button variant="outline" className={"rounded-none"}>
         <BiEdit /> Edit
       </Button>
@@ -57,7 +72,7 @@ export function EditModal({ destination }) {
       <Modal.Backdrop>
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-xl">
-            <Modal.CloseTrigger />
+            <Modal.CloseTrigger onClick={() => setIsOpen(false)} />
             <Modal.Header>
               <Modal.Heading>Edit Destination</Modal.Heading>
             </Modal.Header>
@@ -214,11 +229,21 @@ export function EditModal({ destination }) {
                   {/* Buttons */}
 
                   <Modal.Footer>
-                    <Button slot="close" variant="secondary">
+                    <Button 
+                      slot="close" 
+                      variant="secondary"
+                      isDisabled={isLoading}
+                      onClick={() => setIsOpen(false)}
+                    >
                       Cancel
                     </Button>
-                    <Button type="submit" slot="close">
-                      Update Destination
+                    <Button 
+                      type="submit" 
+                      slot="close"
+                      isLoading={isLoading}
+                      isDisabled={isLoading}
+                    >
+                      {isLoading ? "Updating..." : "Update Destination"}
                     </Button>
                   </Modal.Footer>
                 </form>
