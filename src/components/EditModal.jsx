@@ -12,6 +12,7 @@ import {
   Select,
   category,
 } from "@heroui/react";
+import { redirect } from "next/dist/server/api-utils";
 import { BiEdit, BiEnvelope } from "react-icons/bi";
 
 export function EditModal({ destination }) {
@@ -33,12 +34,10 @@ export function EditModal({ destination }) {
 
     console.log("New Destination:", destination);
 
-
     const res = await fetch(`http://localhost:5000/destination/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
-
       },
 
       body: JSON.stringify(destination),
@@ -46,18 +45,15 @@ export function EditModal({ destination }) {
     const date = await res.json();
     console.log("Updated Destination:", date);
 
-
-
-
+    // redirect(`/destinations/${_id}`);
   };
 
   return (
     <Modal>
-      <div className="flex justify-end">
-        <Button variant="outline" className={"rounded-none mt-5 mb-3"}>
-          <BiEdit /> Edit
-        </Button>
-      </div>
+      <Button variant="outline" className={"rounded-none"}>
+        <BiEdit /> Edit
+      </Button>
+
       <Modal.Backdrop>
         <Modal.Container placement="auto">
           <Modal.Dialog className="sm:max-w-xl">
@@ -221,7 +217,9 @@ export function EditModal({ destination }) {
                     <Button slot="close" variant="secondary">
                       Cancel
                     </Button>
-                    <Button type="submit" slot="close">Update Destination</Button>
+                    <Button type="submit" slot="close">
+                      Update Destination
+                    </Button>
                   </Modal.Footer>
                 </form>
               </Surface>
