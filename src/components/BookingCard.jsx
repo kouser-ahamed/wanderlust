@@ -12,7 +12,7 @@ const BookingCard = ({ destination }) => {
   const [departureDate, setDepartureDate] = useState(null);
   const { price, _id, destinationName,imageUrl, country} = destination;
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     const bookingData = {
       userId: user?.id,
       userName: user?.name,
@@ -25,7 +25,15 @@ const BookingCard = ({ destination }) => {
       departureDate: new Date(departureDate)
       
     }
-    console.log("Booking Data:", bookingData);
+    const res = await fetch("http://localhost:5000/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(bookingData)
+    })
+    const data = await res.json()
+    console.log(data, "booking response");
   }
   return (
     <Card className="rounded-none border mt-5">
