@@ -12,51 +12,37 @@ import {
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+const Login = () => {
 
-const SignUp = () => {
+    const handeleSubmit = async(e) => {
 
-const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const userData = Object.fromEntries(formData.entries());
 
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const userData = Object.fromEntries(formData.entries());
+        const {data, error} = await authClient.signIn.email({
+            email: userData.email,
+            password: userData.password
+        })
 
+        if(data){
+            redirect("/");
 
-    const {data, error} = await authClient.signUp.email({
-        email: userData.email,
-        password: userData.password,
-        name: userData.name,
-        image: userData.image
-    })
+        }
+        if(error){
+            alert("Login failed: " + error.message);   
+        }
+    }
     
-    if(data){
-        redirect("/login");
-    }
-    if(error){
-        alert("Signup failed: " + error.message);   
-    }
-}
-
-  return (
-    <div className="max-w-7xl mx-auto m-10">
+    return (
+          <div className="max-w-7xl mx-auto m-10">
       <div className="text-center my-3">
-        <h1 className="text-2xl font-bold"> Create Account</h1>
+        <h1 className="text-2xl font-bold"> Login</h1>
         <p>Start your adventure with Wanderlust</p>
       </div>
       <Card className="border rounded-none ">
-        <Form className="flex w-96 flex-col gap-4" onSubmit={handleSubmit}>
-          <TextField isRequired name="name" type="text">
-            <Label>Name</Label>
-            <Input placeholder="John Doe" />
-            <FieldError />
-          </TextField>
-
-          <TextField name="image" type="url">
-            <Label>Image URL</Label>
-            <Input placeholder="https://example.com/image.jpg" />
-            <FieldError />
-          </TextField>
-
+        <Form className="flex w-96 flex-col gap-4" onSubmit={handeleSubmit}>
+       
           <TextField
             isRequired
             name="email"
@@ -100,7 +86,7 @@ const handleSubmit = async (e) => {
           <div className="flex gap-2 justify-center">
             <Button className={"rounded-none"} type="submit">
               <Check />
-              SignUp
+              Login
             </Button>
             <Button className={"rounded-none"} type="reset" variant="secondary">
               Clear
@@ -109,7 +95,7 @@ const handleSubmit = async (e) => {
         </Form>
       </Card>
     </div>
-  );
+    );
 };
 
-export default SignUp;
+export default Login;
