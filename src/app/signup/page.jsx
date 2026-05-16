@@ -12,30 +12,34 @@ import {
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 
 const SignUp = () => {
-
-const handleSubmit = async (e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
 
+    const { data, error } = await authClient.signUp.email({
+      email: userData.email,
+      password: userData.password,
+      name: userData.name,
+      image: userData.image,
+    });
 
-    const {data, error} = await authClient.signUp.email({
-        email: userData.email,
-        password: userData.password,
-        name: userData.name,
-        image: userData.image
-    })
-    
-    if(data){
-        redirect("/login");
+    if (data) {
+      redirect("/login");
     }
-    if(error){
-        alert("Signup failed: " + error.message);   
+    if (error) {
+      alert("Signup failed: " + error.message);
     }
-}
+  };
+  const signInWithGoogle = async () => {
+      const data = await authClient.signIn.social({
+        provider: "google"
+
+      });
+  }
 
   return (
     <div className="max-w-7xl mx-auto m-10">
@@ -100,25 +104,25 @@ const handleSubmit = async (e) => {
           <div className="flex gap-2 justify-center">
             <Button className={"rounded-none"} type="submit">
               <Check />
-              Register 
+              Register
             </Button>
             <Button className={"rounded-none"} type="reset" variant="secondary">
               Clear
             </Button>
           </div>
         </Form>
-          <div className="flex items-center  items-center">
-            <Separator>
-              <div className="whitespace-nowrap">Or SignUp with Google</div>
-            </Separator>
+        <div className="flex items-center gap-3 my-3">
+          <Separator className="flex-1" />
 
-          </div>
-        <div>
+          <span className="text-sm whitespace-nowrap text-default-500">Or</span>
 
-          <Button className={"w-full rounded-none"}>
-            Sign in with Google
-          </Button>
+          <Separator className="flex-1" />
         </div>
+
+        <Button  className="w-full rounded-none" variant="outline" onClick={signInWithGoogle}>
+          <FcGoogle />
+          Sign in with Google
+        </Button>
       </Card>
     </div>
   );
