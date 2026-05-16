@@ -35,11 +35,10 @@ const SignUp = () => {
     }
   };
   const signInWithGoogle = async () => {
-      const data = await authClient.signIn.social({
-        provider: "google"
-
-      });
-  }
+    await authClient.signIn.social({
+      provider: "google"
+    })
+  };
 
   return (
     <div className="max-w-7xl mx-auto m-10">
@@ -119,7 +118,11 @@ const SignUp = () => {
           <Separator className="flex-1" />
         </div>
 
-        <Button  className="w-full rounded-none" variant="outline" onClick={signInWithGoogle}>
+        <Button
+          className="w-full rounded-none"
+          variant="outline"
+          onClick={signInWithGoogle}
+        >
           <FcGoogle />
           Sign in with Google
         </Button>
