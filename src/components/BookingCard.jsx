@@ -3,6 +3,7 @@ import { authClient } from "@/lib/auth-client";
 import { Button, Card } from "@heroui/react";
 import { DateField, Label } from "@heroui/react";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const BookingCard = ({ destination }) => {
     const {data: session} = authClient.useSession();
@@ -33,7 +34,9 @@ const BookingCard = ({ destination }) => {
       body: JSON.stringify(bookingData)
     })
     const data = await res.json()
-    console.log(data, "booking response");
+
+    toast.success("Booking successful!")
+
   }
   return (
     <Card className="rounded-none border mt-5">
