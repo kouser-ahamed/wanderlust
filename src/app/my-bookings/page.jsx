@@ -1,3 +1,4 @@
+import { BookingCancelAlert } from "@/components/BookingCancelAlert";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -182,14 +183,8 @@ const MyBookingsPage = async () => {
                     </div>
 
                     {/* Buttons */}
-                    <div className="flex flex-wrap gap-5 mt-10">
-                      <button className="px-8 py-4 rounded-full bg-black text-white hover:bg-emerald-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-emerald-200">
-                        View Details
-                      </button>
-
-                      <button className="px-8 py-4 rounded-full border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 font-semibold">
-                        Cancel Booking
-                      </button>
+                    <div className="mt-5">
+                   <BookingCancelAlert />
                     </div>
                   </div>
                 </div>
