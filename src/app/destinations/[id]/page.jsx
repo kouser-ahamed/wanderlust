@@ -1,3 +1,4 @@
+import BookingCard from "@/components/BookingCard";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
 import { Button } from "@heroui/react";
@@ -24,12 +25,14 @@ const DestinationDetailsPage = async ({ params }) => {
   console.log(id);
   console.log(destination);
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto m-5 border">
      <div className="flex items-center justify-end gap-3 mt-5 mb-3">
        <EditModal destination={destination} />
       <DeleteAlert destination={destination} />
      </div>
       <Image className="w-full h-100 object-cover" alt={destinationName} src={imageUrl} width={600} height={400} />
+      <div className="flex justify-between">
+
       <div className="p-5 space-y-4">
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <LuMapPin className="text-red-500" />
@@ -48,12 +51,12 @@ const DestinationDetailsPage = async ({ params }) => {
             </div>
           </div>
 
-          <div>
-            <h3 className="text-2xl font-bold text-emerald-600">${price}</h3>
-          </div>
+          
         </div>
         <h2 className="text-2xl font-bold mt-10">Overview</h2>
         <p className="text-gray-700">{description}</p>
+      </div>
+      <BookingCard destination={destination} />
       </div>
     </div>
   );
