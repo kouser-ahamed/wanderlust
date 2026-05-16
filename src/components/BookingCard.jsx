@@ -5,10 +5,28 @@ import { DateField, Label } from "@heroui/react";
 import React, { useState } from "react";
 
 const BookingCard = ({ destination }) => {
-    const {data: session} = authClient.userSessionn
+    const {data: session} = authClient.useSession();
+    const user = session?.user;
+
+
   const [departureDate, setDepartureDate] = useState(null);
-  console.log(new Date(departureDate))
-  const { price } = destination;
+  const { price, _id, destinationName,imageUrl, country} = destination;
+
+  const handleBooking = () => {
+    const bookingData = {
+      userId: user?.id,
+      userName: user?.name,
+      userImage: user?.image,
+      destinationId: _id,
+      destinationName,
+      price,
+      imageUrl,
+      country,
+      departureDate: new Date(departureDate)
+      
+    }
+    console.log("Booking Data:", bookingData);
+  }
   return (
     <Card className="rounded-none border mt-5">
       <p className="text-sm text-muted">Starting from</p>
@@ -22,7 +40,7 @@ const BookingCard = ({ destination }) => {
           </DateField.Input>
         </DateField.Group>
       </DateField>
-      <Button className={"w-full rounded-none"}>Book Now</Button>
+      <Button onClick={handleBooking} className={"w-full rounded-none"}>Book Now</Button>
     </Card>
   );
 };
