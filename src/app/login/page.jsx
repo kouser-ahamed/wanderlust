@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Form } from "@heroui/react";
+import { Card, Form, Separator } from "@heroui/react";
 import { Check } from "@gravity-ui/icons";
 import {
   Button,
@@ -12,37 +12,38 @@ import {
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 const Login = () => {
+  const handeleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userData = Object.fromEntries(formData.entries());
 
-    const handeleSubmit = async(e) => {
+    const { data, error } = await authClient.signIn.email({
+      email: userData.email,
+      password: userData.password,
+    });
 
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const userData = Object.fromEntries(formData.entries());
-
-        const {data, error} = await authClient.signIn.email({
-            email: userData.email,
-            password: userData.password
-        })
-
-        if(data){
-            redirect("/");
-
-        }
-        if(error){
-            alert("Login failed: " + error.message);   
-        }
+    if (data) {
+      redirect("/");
     }
-    
-    return (
-          <div className="max-w-7xl mx-auto m-10">
+    if (error) {
+      alert("Login failed: " + error.message);
+    }
+  };
+  const signInWithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+  return (
+    <div className="max-w-7xl mx-auto m-10">
       <div className="text-center my-3">
         <h1 className="text-2xl font-bold"> Login</h1>
         <p>Start your adventure with Wanderlust</p>
       </div>
       <Card className="border rounded-none ">
         <Form className="flex w-96 flex-col gap-4" onSubmit={handeleSubmit}>
-       
           <TextField
             isRequired
             name="email"
@@ -93,9 +94,25 @@ const Login = () => {
             </Button>
           </div>
         </Form>
+        <div className="flex items-center gap-3 my-3">
+          <Separator className="flex-1" />
+
+          <span className="text-sm whitespace-nowrap text-default-500">Or</span>
+
+          <Separator className="flex-1" />
+        </div>
+
+        <Button
+          className="w-full rounded-none"
+          variant="outline"
+          onClick={signInWithGoogle}
+        >
+          <FcGoogle />
+          Sign in with Google
+        </Button>
       </Card>
     </div>
-    );
+  );
 };
 
 export default Login;
