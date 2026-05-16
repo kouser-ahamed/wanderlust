@@ -184,7 +184,7 @@ const MyBookingsPage = async () => {
 
                     {/* Buttons */}
                     <div className="mt-5">
-                   <BookingCancelAlert />
+                   <BookingCancelAlert bookingId={booking._id} />
                     </div>
                   </div>
                 </div>

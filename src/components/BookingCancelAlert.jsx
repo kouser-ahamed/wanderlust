@@ -2,8 +2,20 @@
 
 import {AlertDialog, Button} from "@heroui/react";
 
-export function BookingCancelAlert() {
+export function BookingCancelAlert({bookingId}) {
+  const handleCancelBooking = async () => {
+    const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    window.location.reload();
+    };
+  
   return (
+
     <AlertDialog>
 <Button
   className="
@@ -38,9 +50,9 @@ export function BookingCancelAlert() {
               <Button slot="close" variant="tertiary">
                 Exit
               </Button>
-              <Button slot="close" variant="danger">
+              <Button onClick={handleCancelBooking} slot="close" variant="danger">
                 Cancel Booking
-              </Button>
+              </Button> 
             </AlertDialog.Footer>
           </AlertDialog.Dialog>
         </AlertDialog.Container>
