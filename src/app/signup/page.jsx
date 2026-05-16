@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Form } from "@heroui/react";
+import { Card, Form, Separator } from "@heroui/react";
 import { Check } from "@gravity-ui/icons";
 import {
   Button,
@@ -100,13 +100,25 @@ const handleSubmit = async (e) => {
           <div className="flex gap-2 justify-center">
             <Button className={"rounded-none"} type="submit">
               <Check />
-              SignUp
+              Register 
             </Button>
             <Button className={"rounded-none"} type="reset" variant="secondary">
               Clear
             </Button>
           </div>
         </Form>
+          <div className="flex items-center  items-center">
+            <Separator>
+              <div className="whitespace-nowrap">Or SignUp with Google</div>
+            </Separator>
+
+          </div>
+        <div>
+
+          <Button className={"w-full rounded-none"}>
+            Sign in with Google
+          </Button>
+        </div>
       </Card>
     </div>
   );
