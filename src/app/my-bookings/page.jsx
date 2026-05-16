@@ -2,6 +2,7 @@ import { BookingCancelAlert } from "@/components/BookingCancelAlert";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
 
 const MyBookingsPage = async () => {
   const session = await auth.api.getSession({
@@ -64,9 +65,12 @@ const MyBookingsPage = async () => {
                 unforgettable adventure.
               </p>
 
-              <button className="mt-8 px-8 py-4 bg-black text-white rounded-full hover:bg-emerald-600 transition-all duration-300 font-medium">
+              <Link
+                href="/destinations"
+                className="mt-8 inline-flex px-8 py-4 bg-black text-white rounded-full hover:bg-emerald-600 transition-all duration-300 font-medium"
+              >
                 Explore Destinations
-              </button>
+              </Link>
             </div>
           </div>
         ) : (
